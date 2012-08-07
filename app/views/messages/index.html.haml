@@ -1,0 +1,27 @@
+%h1 Listing messages
+
+%table
+  %tr
+    %th Status
+    %th Message
+    %th Latitude
+    %th Longitude
+    %th Ip address
+    %th
+    %th
+    %th
+
+  - @messages.each do |message|
+    %tr
+      %td= message.status
+      %td= message.message
+      %td= message.latitude
+      %td= message.longitude
+      %td= message.ip_address
+      %td= link_to 'Show', message
+      %td= link_to 'Edit', edit_message_path(message)
+      %td= link_to 'Destroy', message, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Message', new_message_path
