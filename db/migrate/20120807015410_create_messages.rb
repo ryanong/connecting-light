@@ -4,7 +4,7 @@ class CreateMessages < ActiveRecord::Migration
       t.string :status
       t.string :message
       t.float :latitude
-      t.flost :longitude
+      t.float :longitude
       t.integer :ip_address, limit: 8
 
       t.timestamps

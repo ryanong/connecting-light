@@ -17,7 +17,7 @@ development:
   encoding: unicode
   database: connecting-light_development
   pool: 5
-  username: connecting-light
+  username: zach
   password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
