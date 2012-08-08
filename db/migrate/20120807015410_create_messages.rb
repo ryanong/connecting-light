@@ -5,6 +5,9 @@ class CreateMessages < ActiveRecord::Migration
       t.string :message
       t.float :latitude
       t.float :longitude
+      t.integer :red
+      t.integer :green
+      t.integer :blue
       t.integer :ip_address, limit: 8
 
       t.timestamps

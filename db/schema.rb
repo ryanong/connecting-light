@@ -18,6 +18,9 @@ ActiveRecord::Schema.define(:version => 20120807015410) do
     t.string   "message"
     t.float    "latitude"
     t.float    "longitude"
+    t.integer  "red"
+    t.integer  "green"
+    t.integer  "blue"
     t.integer  "ip_address", :limit => 8
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
