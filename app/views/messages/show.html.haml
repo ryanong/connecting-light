@@ -1,21 +1,5 @@
-%p#notice= notice
+#send-message.send-message
+  .thank-you{:style => "display: none; "}
+    %h2 Thank you!
+    %p You may now close this window.
 
-%p
-  %b Status:
-  = @message.status
-%p
-  %b Message:
-  = @message.message
-%p
-  %b Latitude:
-  = @message.latitude
-%p
-  %b Longitude:
-  = @message.longitude
-%p
-  %b Ip address:
-  = @message.ip_address
-
-= link_to 'Edit', edit_message_path(@message)
-\|
-= link_to 'Back', messages_path

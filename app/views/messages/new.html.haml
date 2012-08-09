@@ -1,5 +1,18 @@
-%h1 New message
+#send-message.send-message
+  .send-message-submit
+    .tier
+      .tc-field
+        %textarea{:name => "m"}
+        .load-prompt
+          %a{:href => "#"} load a different prompt
+        %span.count
+    .tier
+      .color-picker
+        .handle
+        %canvas
+      %a.ca-button.alt.ca-trans.next
+        %span Send Your Message
+  .step.dispatch{:style => "display: none; "}
+    .spinner
+      %img{:alt => "Loading", :src => "http://connectinglight.info/wp-content/themes/connecting-lights/img/spinner.gif"}
 
-= render 'form'
-
-= link_to 'Back', messages_path
