@@ -2,9 +2,7 @@ require 'matrix'
 
 class Message < ActiveRecord::Base
   attr_accessible :latitude, :longitude, :message, :status
-  serialize :closest_point, Vector
-
-  before_save :calculate!
+  before_save :calculate_location_on_wall!
 
   def self.latest
     where(status: 'approved').limit(200)
@@ -12,10 +10,6 @@ class Message < ActiveRecord::Base
 
   WALLSEND = Vector[54.9913,-1.5290]
   BOWNESS = Vector[54.9532, -3.2146]
-
-  def percent_of_wall
-    distance_to_segment
-  end
 
   def point
     Vector[latitude,longitude]
@@ -33,7 +27,7 @@ class Message < ActiveRecord::Base
 
   HADRIANS_DISTANCE = distance(WALLSEND, BOWNESS)
 
-  def calculate!
+  def calculate_location_on_wall!
     dx = WALLSEND[0] - BOWNESS[0]
     dy = WALLSEND[1] - BOWNESS[1]
     # Calculate the t that minimizes the distance.
@@ -42,19 +36,25 @@ class Message < ActiveRecord::Base
     # See if this represents one of the segment's
     # end points or a point in the middle.
     if (t < 0)
-      self.closest_point = BOWNESS
+      closest_point = BOWNESS
       dx = pt[0] - BOWNESS[0]
       dy = pt[1] - BOWNESS[1]
     elsif (t > 1)
-      self.closest_point = WALLSEND
+      closest_point = WALLSEND
       dx = pt[0] - WALLSEND[0]
       dy = pt[1] - WALLSEND[1]
     else
-      self.closest_point = Vector[BOWNESS[0] + t * dx, BOWNESS[1] + t * dy]
+      closest_point = Vector[BOWNESS[0] + t * dx, BOWNESS[1] + t * dy]
       dx = pt[0] - closest[0]
       dy = pt[1] - closest[1]
     end
 
-    self.distance=Math.sqrt(dx * dx + dy * dy);
+    distance_to_wall=Math.sqrt(dx * dx + dy * dy);
+
+    self.location_on_wall = if distance_to_wall > 3.0
+      rand(0.0..100.0)
+    else
+      self.class.distance(closest_point, BOWNESS)
+    end
   end
 end
