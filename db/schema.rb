@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120807015410) do
+ActiveRecord::Schema.define(:version => 20120810010647) do
 
   create_table "messages", :force => true do |t|
     t.string   "status"
@@ -21,9 +21,10 @@ ActiveRecord::Schema.define(:version => 20120807015410) do
     t.integer  "red"
     t.integer  "green"
     t.integer  "blue"
-    t.integer  "ip_address", :limit => 8
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.integer  "ip_address",       :limit => 8
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.float    "location_on_wall"
   end
 
 end

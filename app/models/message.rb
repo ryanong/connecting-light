@@ -31,22 +31,22 @@ class Message < ActiveRecord::Base
     dx = WALLSEND[0] - BOWNESS[0]
     dy = WALLSEND[1] - BOWNESS[1]
     # Calculate the t that minimizes the distance.
-    t = ((pt[0] - BOWNESS[0]) * dx + (pt[1] - BOWNESS[1]) * dy) / (dx^2 + dy^2)
+    t = ((point[0] - BOWNESS[0]) * dx + (point[1] - BOWNESS[1]) * dy) / (dx**2 + dy**2)
 
     # See if this represents one of the segment's
     # end points or a point in the middle.
     if (t < 0)
       closest_point = BOWNESS
-      dx = pt[0] - BOWNESS[0]
-      dy = pt[1] - BOWNESS[1]
+      dx = point[0] - BOWNESS[0]
+      dy = point[1] - BOWNESS[1]
     elsif (t > 1)
       closest_point = WALLSEND
-      dx = pt[0] - WALLSEND[0]
-      dy = pt[1] - WALLSEND[1]
+      dx = point[0] - WALLSEND[0]
+      dy = point[1] - WALLSEND[1]
     else
       closest_point = Vector[BOWNESS[0] + t * dx, BOWNESS[1] + t * dy]
-      dx = pt[0] - closest[0]
-      dy = pt[1] - closest[1]
+      dx = point[0] - closest[0]
+      dy = point[1] - closest[1]
     end
 
     distance_to_wall=Math.sqrt(dx * dx + dy * dy);
