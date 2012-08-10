@@ -8,3 +8,5 @@ gem 'dalli'
 
 gem 'simple_form'
 gem 'haml-rails'
+
+gem 'rack-cors', :require => 'rack/cors'

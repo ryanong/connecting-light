@@ -58,5 +58,14 @@ module ConnectingLight
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.middleware.use Rack::Cors do
+      allow do
+        origins 'connectinglight.info'
+        resource %r{/messages.*},
+          :headers => ['Origin', 'Accept', 'Content-Type'],
+          :methods => [:post, :get, :put]
+      end
+    end
   end
 end

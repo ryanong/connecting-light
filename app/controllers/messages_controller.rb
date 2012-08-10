@@ -1,3 +1,5 @@
+require 'ipaddr'
+
 class MessagesController < ApplicationController
   respond_to :html, :json
 
@@ -23,7 +25,8 @@ class MessagesController < ApplicationController
 
   def create
     @message = Message.new(params[:message])
-
+    @message.ip_address = IPAddr.new(request.remote_ip).to_i
+    @message.save
     respond_with @message
   end
 end
