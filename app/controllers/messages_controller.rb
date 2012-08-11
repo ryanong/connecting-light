@@ -3,10 +3,9 @@ require 'ipaddr'
 class MessagesController < ApplicationController
   respond_to :html, :json
 
+  caches_action :index
   def index
-    @messages = Rails.cache.fetch('latest-messages') do
-      Message.latest
-    end
+    Message.latest
 
     respond_with @messages
   end
@@ -27,7 +26,7 @@ class MessagesController < ApplicationController
     @message = Message.new(params[:message])
     @message.ip_address = IPAddr.new(request.remote_ip).to_i
     if @message.save
-      Rails.cache.write('latest-messages', Message.latest)
+      expire_action :action => :index
     end
     respond_with @message
   end
