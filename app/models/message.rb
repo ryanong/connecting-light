@@ -1,8 +1,11 @@
 require 'matrix'
 
 class Message < ActiveRecord::Base
-  attr_accessible :latitude, :longitude, :message, :status
+  attr_accessible :latitude, :longitude, :message, :red, :green, :blue
   before_save :calculate_location_on_wall!
+
+  validates :latitude, :longitude, :message, :red, :green, :blue,
+    presence: true
 
   def self.latest
     where(status: 'approved').limit(200)

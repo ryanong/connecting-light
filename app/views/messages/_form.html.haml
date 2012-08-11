@@ -1,4 +1,4 @@
-= form_for @message do |f|
+= simple_form_for @message do |f|
   -if @message.errors.any?
     #error_explanation
       %h2= "#{pluralize(@message.errors.count, "error")} prohibited this message from being saved:"
@@ -6,17 +6,10 @@
         - @message.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :status
-    = f.text_field :status
-  .field
-    = f.label :message
-    = f.text_field :message
-  .field
-    = f.label :latitude
-    = f.text_field :latitude
-  .field
-    = f.label :longitude
-    = f.text_field :longitude
-  .actions
-    = f.submit 'Save'
+  = f.input :red
+  = f.input :green
+  = f.input :blue
+  = f.input :message
+  = f.input :latitude
+  = f.input :longitude
+  = f.submit 'Save'
