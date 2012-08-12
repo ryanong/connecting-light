@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
 
   caches_action :index
   def index
-    Message.latest
+    @messages = Message.latest
 
     respond_with @messages
   end
