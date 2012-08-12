@@ -3,15 +3,15 @@ require "builder"
 require "base64"
 
 class DigiFi
-  attr_reader :host
-  def initialize(host = ENV["DIGI_FI_HOST"], username = ENV["DIGI_FI_USERNAME"], password = ENV["DIGI_FI_PASSWORD"])
+  attr_reader :host, :username, :password
+  def initialize(host = "http://my.idigi.co.uk", username = "yesyesno", password = "olympic#2012")
     @host = host
     @username = username
     @password = password
   end
 
   def send_message(message)
-    body = sci_request(set_color(message).to_json).to_xml
+    body = sci_request(set_color(message).to_json)
     Typhoeus::Request.post(
       "#{host}/ws/sci",
       :body    => body,
@@ -28,15 +28,14 @@ class DigiFi
   end
 
   def sci_request(message)
-    builder = Builder::XmlMarkup.new
-    builder.sci_request(version: "1.0") do |sci_request|
+    Builder::XmlMarkup.new.sci_request(version: "1.0") do |sci_request|
       sci_request.send_message do |send_message|
         send_message.targets do |targets|
           targets.device(id: "all")
         end
-      end
-      sci_request.rci_request(version: "1.1") do |rci_request|
-        rci_request.do_command(message, target: "set_color")
+        sci_request.rci_request(version: "1.1") do |rci_request|
+          rci_request.do_command(message, target: "set_color")
+        end
       end
     end
   end
@@ -51,6 +50,6 @@ class DigiFi
   end
 
   def auth_base64
-    Base64.encode("#{username}:#{password}")
+    Base64.encode64("#{username}:#{password}").strip
   end
 end
