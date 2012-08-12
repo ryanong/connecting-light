@@ -34,6 +34,7 @@ GEM
     dalli (2.1.0)
     erubis (2.7.0)
     eventmachine (0.12.10)
+    ffi (1.1.5)
     haml (3.1.6)
     haml-rails (0.3.4)
       actionpack (~> 3.0)
@@ -97,6 +98,9 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    typhoeus (0.4.2)
+      ffi (~> 1.0)
+      mime-types (~> 1.18)
     tzinfo (0.3.33)
     unicorn (4.3.1)
       kgio (~> 2.6)
@@ -114,4 +118,5 @@ DEPENDENCIES
   rails (= 3.2.7)
   simple_form
   thin
+  typhoeus
   unicorn

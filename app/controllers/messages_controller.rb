@@ -1,4 +1,5 @@
 require 'ipaddr'
+require 'digi_fi'
 
 class MessagesController < ApplicationController
   respond_to :html, :json
@@ -7,7 +8,14 @@ class MessagesController < ApplicationController
   def index
     @messages = Message.latest
 
-    respond_with @messages
+    respond_with @messages do |format|
+      format.json {
+        render json: @messages.as_json(
+          except: [:created_at, :updated_at, :status, :ip_address],
+          methods: [:post_time]
+        )
+      }
+    end
   end
 
   def show
@@ -28,7 +36,12 @@ class MessagesController < ApplicationController
     @message.status = "approved"
     if @message.save
       expire_action :action => :index
+      digi_fi_client.send_message(@message)
     end
     respond_with @message
+  end
+
+  def digi_fi_client
+    @digi_fi_client ||= DigiFi.new
   end
 end

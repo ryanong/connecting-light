@@ -69,6 +69,10 @@ class Message < ActiveRecord::Base
     end
   end
 
+  def post_time
+    created_at.to_i
+  end
+
   def set_random_location!
     self.location_on_wall = rand(0.0..100.0)
   end

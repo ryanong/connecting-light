@@ -10,6 +10,8 @@ gem 'dalli'
 gem 'simple_form'
 gem 'haml-rails'
 
+gem 'typhoeus'
+
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'thin', group: :development
