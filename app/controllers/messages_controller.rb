@@ -25,6 +25,7 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(params[:message])
     @message.ip_address = IPAddr.new(request.remote_ip).to_i
+    @message.status = "approved"
     if @message.save
       expire_action :action => :index
     end

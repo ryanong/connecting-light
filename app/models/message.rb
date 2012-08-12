@@ -4,11 +4,18 @@ class Message < ActiveRecord::Base
   attr_accessible :latitude, :longitude, :message, :red, :green, :blue
   before_save :calculate_location_on_wall!
 
-  validates :latitude, :longitude, :message, :red, :green, :blue,
+  validates :message, :red, :green, :blue,
     presence: true
 
+  validates :latitude, :longitude,
+    numericality: {
+      greater_than_or_equal_to: -180,
+      less_than_or_equal_to: 180,
+      allow_nil: true
+    }
+
   def self.latest
-    where(status: 'approved').limit(200)
+    where(status: 'approved').limit(200).order("id DESC")
   end
 
   WALLSEND = Vector[54.9913,-1.5290]
@@ -31,6 +38,7 @@ class Message < ActiveRecord::Base
   HADRIANS_DISTANCE = distance(WALLSEND, BOWNESS)
 
   def calculate_location_on_wall!
+    return set_random_location! if latitude.blank? || longitude.blank?
     dx = WALLSEND[0] - BOWNESS[0]
     dy = WALLSEND[1] - BOWNESS[1]
     # Calculate the t that minimizes the distance.
@@ -54,10 +62,14 @@ class Message < ActiveRecord::Base
 
     distance_to_wall=Math.sqrt(dx * dx + dy * dy);
 
-    self.location_on_wall = if distance_to_wall > 3.0
-      rand(0.0..100.0)
+    if distance_to_wall > 3.0
+      self.set_random_location!
     else
-      self.class.distance(closest_point, BOWNESS)
+      self.location_on_wall = self.class.distance(closest_point, BOWNESS)
     end
+  end
+
+  def set_random_location!
+    self.location_on_wall = rand(0.0..100.0)
   end
 end
