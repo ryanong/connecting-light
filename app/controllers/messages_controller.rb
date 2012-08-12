@@ -21,7 +21,14 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find(params[:id])
 
-    respond_with @message
+    respond_with @message do |format|
+      format.json {
+        render json: @message.as_json(
+          except: [:created_at, :updated_at, :status, :ip_address],
+          methods: [:post_time]
+        )
+      }
+    end
   end
 
   def new
