@@ -3,7 +3,6 @@
 =form_for
 %table
   %tr
-    %th Status
     %th Message
     %th Latitude
     %th Longitude
@@ -13,7 +12,6 @@
     %th
   - @messages.each do |message|
     %tr
-      %td= message.status
       %td= message.message
       %td= message.latitude
       %td= message.longitude

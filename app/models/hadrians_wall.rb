@@ -1,5 +1,4 @@
 class HadriansWall
-
   class << self
     def closest_wall_point(point)
       minimum_distance = 0

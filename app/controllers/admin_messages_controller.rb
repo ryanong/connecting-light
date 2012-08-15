@@ -6,13 +6,6 @@ class AdminMessagesController < ApplicationController
     respond_with @messages
   end
 
-  def approve
-    @messages = Message.where(id: params[:ids])
-    @messages.update_all(status: "approved")
-
-    redirect_to :index
-  end
-
   def show
     @message = Message.find(params[:id])
 
