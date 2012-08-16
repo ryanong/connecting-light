@@ -4,7 +4,13 @@ require 'digi_fi'
 class MessagesController < ApplicationController
   respond_to :html, :json
 
-  caches_action :index
+  caches_action :index, cache_path: Proc.new { |controller|
+    cache_path = "/messages.#{controller.params[:format]}?limit=#{params[:count] || '1000'}"
+    cache_path << "since_id=#{params[:since_id]}" if params[:since_id]
+    cache_path << "since_time=#{params[:since_time]}" if params[:since_time]
+    cache_path
+  }
+
   def index
     if params[:count].is_a?(Numeric)
       @messages = Message.limit(params[:count])
