@@ -7,9 +7,9 @@ class MessagesController < ApplicationController
   caches_action :index
   def index
     if params[:count].is_a?(Numeric)
-      @messages = Messages.limit(params[:count])
+      @messages = Message.limit(params[:count])
     else
-      @messages = Messages.limit(1000)
+      @messages = Message.limit(1000)
     end
 
     if params[:since_id]
