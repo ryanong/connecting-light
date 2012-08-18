@@ -32,4 +32,8 @@ class Message < ActiveRecord::Base
   def set_random_location!
     self.location_on_wall = rand(0.0..100.0)
   end
+
+  def animation_data
+    super || "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd6MDk4NzY1NDMyMWE="
+  end
 end
