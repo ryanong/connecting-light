@@ -28,27 +28,13 @@ class MessagesController < ApplicationController
       @messages = @messages.where('created_at >= ?', Time.at(params[:since_time].to_i))
     end
 
-    respond_with @messages do |format|
-      format.json {
-        render json: @messages.as_json(
-          except: [:created_at, :updated_at, :ip_address, :latitude, :longitude],
-          methods: [:post_time, :rgb]
-        )
-      }
-    end
+    respond_with @messages
   end
 
   def show
     @message = Message.find(params[:id])
 
-    respond_with @message do |format|
-      format.json {
-        render json: @message.as_json(
-          except: [:created_at, :updated_at, :ip_address, :latitude, :longitude],
-          methods: [:post_time, :rgb]
-        )
-      }
-    end
+    respond_with @message
   end
 
   def new

@@ -40,4 +40,9 @@ class Message < ActiveRecord::Base
   def rgb
     [red,green,blue]
   end
+
+  def as_json(args = {})
+    super({except: [:created_at, :updated_at, :ip_address, :latitude, :longitude],
+      methods: [:post_time, :rgb]}.merge(args))
+  end
 end
