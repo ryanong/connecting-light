@@ -31,8 +31,8 @@ class MessagesController < ApplicationController
     respond_with @messages do |format|
       format.json {
         render json: @messages.as_json(
-          except: [:created_at, :updated_at, :ip_address],
-          methods: [:post_time]
+          except: [:created_at, :updated_at, :ip_address, :latitude, :longitude],
+          methods: [:post_time, :rgb]
         )
       }
     end
@@ -44,8 +44,8 @@ class MessagesController < ApplicationController
     respond_with @message do |format|
       format.json {
         render json: @message.as_json(
-          except: [:created_at, :updated_at, :ip_address],
-          methods: [:post_time]
+          except: [:created_at, :updated_at, :ip_address, :latitude, :longitude],
+          methods: [:post_time, :rgb]
         )
       }
     end

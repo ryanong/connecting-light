@@ -36,4 +36,8 @@ class Message < ActiveRecord::Base
   def animation_data
     super || "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd6MDk4NzY1NDMyMWE="
   end
+
+  def rgb
+    [red,green,blue]
+  end
 end
