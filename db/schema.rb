@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120815015635) do
+ActiveRecord::Schema.define(:version => 20120819013539) do
 
   create_table "messages", :force => true do |t|
     t.string   "message"
@@ -26,5 +26,9 @@ ActiveRecord::Schema.define(:version => 20120815015635) do
     t.float    "location_on_wall"
     t.text     "animation_data"
   end
+
+  add_index "messages", ["created_at"], :name => "index_messages_on_created_at"
+  add_index "messages", ["ip_address"], :name => "index_messages_on_ip_address"
+  add_index "messages", ["location_on_wall"], :name => "index_messages_on_location_on_wall"
 
 end

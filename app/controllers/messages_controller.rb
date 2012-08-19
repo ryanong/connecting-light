@@ -28,6 +28,14 @@ class MessagesController < ApplicationController
       @messages = @messages.where('created_at >= ?', Time.at(params[:since_time].to_i))
     end
 
+    if params[:from_location]
+      @messages = @messages.where('location_on_wall >= ?', params[:from_location].to_f)
+    end
+
+    if params[:to_location]
+      @messages = @messages.where('location_on_wall <= ?', params[:to_location].to_f)
+    end
+
     respond_with @messages
   end
 
