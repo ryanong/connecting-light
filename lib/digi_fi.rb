@@ -46,9 +46,8 @@ class DigiFi
       srcTime: message.created_at.to_i,
       targetColor: [message.red, message.green, message.blue],
       blob: message.animation_data,
-      time: Time.now.to_i,
-      smoothing: AdminSetting.find_by_name("smoothing").try(:value).try(:to_f) || 0.3
-    }]
+      time: Time.now.to_i
+    }.merge(AdminSetting.fetch)]
   end
 
   def auth_base64
