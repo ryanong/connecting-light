@@ -43,7 +43,7 @@ class DigiFi
   def set_color(message)
     [{
       srcLoc: message.location_on_wall,
-      srcTime: Time.now.to_i,
+      srcTime: message.created_at.to_i,
       targetColor: [message.red, message.green, message.blue],
       blob: message.animation_data
     }]
