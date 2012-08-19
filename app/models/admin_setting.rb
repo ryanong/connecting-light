@@ -1,6 +1,8 @@
 class AdminSetting < ActiveRecord::Base
   attr_accessible :max, :min, :name, :value
 
+  validate :value_within_range_if_minmax_is_set
+
   after_save :reset_settings_cache
 
   def pair
@@ -16,6 +18,14 @@ class AdminSetting < ActiveRecord::Base
       super.to_f
     else
       super
+    end
+  end
+
+  def value_within_range_if_minmax_is_set
+    if min && value < min
+      errors.add(:value, "can't be smaller than #{min}")
+    elsif max && value > max
+      errors.add(:value, "can't be larger than #{max}")
     end
   end
 
