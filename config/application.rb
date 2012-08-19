@@ -54,7 +54,7 @@ module ConnectingLight
     config.active_record.whitelist_attributes = true
 
     # Enable the asset pipeline
-    config.assets.enabled = false
+    config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
@@ -67,5 +67,12 @@ module ConnectingLight
           :methods => [:post, :get, :put]
       end
     end
+
+    config.generators do |g|
+      g.test_framework nil
+      g.assets false
+      g.helper false
+    end
+
   end
 end

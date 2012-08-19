@@ -1,0 +1,39 @@
+:javascript
+    $(function() {
+    $( "#slider-range-max" ).slider({
+      range: "max",
+      min: 1,
+      max: 10,
+      value: 2,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( ui.value );
+      }
+    });
+    $( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
+  });
+
+%h1 Listing admin_settings
+
+%table
+  %tr
+    %th Name
+    %th Min
+    %th Max
+    %th Value
+    %th
+    %th
+    %th
+
+  - @admin_settings.each do |admin_setting|
+    %tr
+      %td= admin_setting.name
+      %td= admin_setting.min
+      %td= admin_setting.max
+      %td= admin_setting.value
+      %td= link_to 'Show', admin_setting
+      %td= link_to 'Edit', edit_admin_setting_path(admin_setting)
+      %td= link_to 'Destroy', admin_setting, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Admin setting', new_admin_setting_path

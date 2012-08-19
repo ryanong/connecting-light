@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @admin_setting.name
+%p
+  %b Min:
+  = @admin_setting.min
+%p
+  %b Max:
+  = @admin_setting.max
+%p
+  %b Value:
+  = @admin_setting.value
+
+= link_to 'Edit', edit_admin_setting_path(@admin_setting)
+\|
+= link_to 'Back', admin_settings_path
