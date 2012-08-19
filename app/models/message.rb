@@ -14,6 +14,8 @@ class Message < ActiveRecord::Base
       allow_nil: true
     }
 
+  validate :one_message_per_5_seconds
+
   def self.latest
     order("id DESC")
   end
@@ -44,5 +46,11 @@ class Message < ActiveRecord::Base
   def as_json(args = {})
     super({except: [:created_at, :updated_at, :ip_address, :latitude, :longitude],
       methods: [:post_time, :rgb]}.merge(args))
+  end
+
+  def one_message_per_5_seconds
+    if self.class.where(ip_address: ip_address).where("created_at >= ?", 5.seconds.ago).count > 0
+      errors.add(:base, "you can only post one message every 5 seconds")
+    end
   end
 end
