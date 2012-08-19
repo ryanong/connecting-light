@@ -6,7 +6,14 @@ class MessagesController < ApplicationController
 
   skip_before_filter :verify_authenticity_token
 
-  caches_action :index, expires_in: 10.seconds
+  caches_action :index, expires_in: 10.seconds , cache_path: Proc.new { |controller|
+    cache_path = "messages.#{controller.params[:format]}?limit=#{params[:count] || '1000'}"
+    cache_path << "since_id=#{params[:since_id]}" if params[:since_id]
+    cache_path << "since_time=#{params[:since_time]}" if params[:since_time]
+    cache_path << "from_location=#{params[:from_location]}" if params[:from_location]
+    cache_path << "to_location=#{params[:to_location]}" if params[:to_location]
+    cache_path
+  }
 
   def index
     @messages = Message.order("id DESC").limit(1000)
