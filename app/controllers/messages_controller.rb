@@ -59,6 +59,7 @@ class MessagesController < ApplicationController
     if @message.save
       expire_action :action => :index
       digi_fi_client.send_message(@message)
+      @message.update_animation_data!
     end
     respond_with @message
   end

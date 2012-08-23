@@ -53,4 +53,26 @@ class Message < ActiveRecord::Base
       errors.add(:base, "you can only post one message every 5 seconds")
     end
   end
+
+  def update_animation_data!
+    response = Typhoeus::Request.get(
+      "http://198.101.204.58:8888/tts.of",
+      params: {
+        text: message,
+        type: "base64"
+      }
+    )
+    if response.success?
+      self.animation_data = response.body
+      self.save
+      return true
+    elsif response.timed_out?
+      Rails.logger.error("got a time out")
+    elsif response.code == 0
+      Rails.logger.error(response.curl_error_message)
+    else
+      Rails.logger.error("HTTP request failed: " + response.code.to_s)
+    end
+    false
+  end
 end
