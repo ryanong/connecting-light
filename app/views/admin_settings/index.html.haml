@@ -1,11 +1,9 @@
 %h1 Listing admin_settings
 
-%table
+%table.admin_settings
   %tr
     %th Name
-    %th Min
-    %th Max
-    %th Value
+    %th{colspan: 2} Value
     %th
     %th
     %th
@@ -13,9 +11,20 @@
   - @admin_settings.each do |admin_setting|
     %tr
       %td= admin_setting.name
-      %td= admin_setting.min
-      %td= admin_setting.max
-      %td= admin_setting.value
+      - if admin_setting.numeric?
+        %td
+          = simple_form_for(admin_setting)do |f|
+            =f.input :value, label: false
+        %td
+          .numeric{"data-min" => admin_setting.min,
+            "data-max" => admin_setting.max,
+            "data-value" => admin_setting.value,
+            "data-step" => admin_setting.step,
+            "data-post-id" => admin_setting.id}
+      - else
+        %td{colspan: 2}
+          = simple_form_for(admin_setting)do |f|
+            =f.input :value, label: false
       %td= link_to 'Show', admin_setting
       %td= link_to 'Edit', edit_admin_setting_path(admin_setting)
       %td= link_to 'Destroy', admin_setting, :confirm => 'Are you sure?', :method => :delete
@@ -23,3 +32,20 @@
 %br
 
 = link_to 'New Admin setting', new_admin_setting_path
+
+:javascript
+  $('form').ajaxForm();
+  $('input[type=text]').keydown(function(event){
+    $(event.target).closest("form").submit();
+  });
+
+  $(".numeric").each(function(){
+    var $this = $(this);
+    var options = $this.data();
+    options["change"] = function(event, ui) {
+      var $form = $("#edit_admin_setting_"+options.postId)
+      $form.find("input[type=text]").val(ui.value);
+      $form.submit();
+    }
+    $this.slider($this.data());
+  });

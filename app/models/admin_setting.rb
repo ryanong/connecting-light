@@ -13,12 +13,20 @@ class AdminSetting < ActiveRecord::Base
     Rails.cache.write("admin-settings", self.class.get)
   end
 
+  def numeric?
+    !!(min || max)
+  end
+
   def value
-    if min || max
+    if numeric?
       super.to_f
     else
       super
     end
+  end
+
+  def step
+    (max - min) / 20
   end
 
   def value_within_range_if_minmax_is_set

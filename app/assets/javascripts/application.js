@@ -1,4 +1,5 @@
 /*
  *= require jquery
- *= require jquery.ui.all
+ *= require jquery.ui.slider
+ *= require jquery.form
  */
