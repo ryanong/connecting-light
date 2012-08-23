@@ -23,10 +23,6 @@ class DigiFi
     )
   end
 
-  def client
-    @client ||= HTTPClient.new
-  end
-
   def sci_request(message)
     Builder::XmlMarkup.new.sci_request(version: "1.0") do |sci_request|
       sci_request.send_message do |send_message|
