@@ -14,7 +14,7 @@ class Message < ActiveRecord::Base
       allow_nil: true
     }
 
-  validate :one_message_per_5_seconds
+  validate :one_message_per_5_seconds, on: :createt
 
   def self.latest
     order("id DESC")
