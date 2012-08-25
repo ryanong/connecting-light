@@ -14,7 +14,7 @@ class HadriansWall
     end
 
     def percent_along_the_wall(point)
-      if distance = distance_along_the_wall(point)
+      if distance = distance_along_the_wall(closest_wall_point(point))
         distance / LENGTH * 100
       else
         return nil
@@ -22,13 +22,9 @@ class HadriansWall
     end
 
     def distance_along_the_wall(point)
-      distance = 0
-      last_wall_point = nil
+      distance = 0.0
+      last_wall_point = POINTS.first
       POINTS.each do |wall_point|
-        if last_wall_point.nil?
-          last_wall_point = wall_point
-          next
-        end
         distance += euclidean_distance(last_wall_point, wall_point)
         return distance if wall_point == point
         last_wall_point = wall_point
