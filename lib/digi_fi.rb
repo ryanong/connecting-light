@@ -25,7 +25,7 @@ class DigiFi
 
   def sci_request(message)
     Builder::XmlMarkup.new.sci_request(version: "1.0") do |sci_request|
-      sci_request.send_message do |send_message|
+      sci_request.send_message(synchronous: "false") do |send_message|
         send_message.targets do |targets|
           targets.device(id: "all")
         end
