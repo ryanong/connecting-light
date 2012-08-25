@@ -1,11 +1,11 @@
 class HadriansWall
   class << self
     def closest_wall_point(point)
-      minimum_distance = 0
+      minimum_distance = nil
       closest_point = nil
       POINTS.each do |wall_point|
         distance = euclidean_distance(point, wall_point)
-        if minimum_distance > distance
+        if minimum_distance.nil? || minimum_distance > distance
           minimum_distance = distance
           closest_point = wall_point
         end
@@ -37,7 +37,7 @@ class HadriansWall
     end
 
     def euclidean_distance(vector1, vector2)
-      sum = 0
+      sum = 0.0
       vector1.zip(vector2).each do |v1, v2|
         component = (v1 - v2)**2
         sum += component
