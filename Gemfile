@@ -14,7 +14,12 @@ gem 'typhoeus'
 
 gem 'rack-cors', :require => 'rack/cors'
 
-gem 'thin', group: :development
+group :development do
+  gem 'newrelic_rpm'
+  gem 'thin'
+  gem 'pry-rails'
+  gem 'pry-nav'
+end
 
 group :assets do
   gem 'uglifier', '>= 1.0.3'
