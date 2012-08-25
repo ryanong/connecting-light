@@ -33,6 +33,7 @@ class HadriansWall
     end
 
     def euclidean_distance(vector1, vector2)
+      return 0 if vector1 == vector2
       sum = 0.0
       vector1.zip(vector2).each do |v1, v2|
         component = (v1 - v2)**2
