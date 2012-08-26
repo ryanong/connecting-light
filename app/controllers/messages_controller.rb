@@ -1,3 +1,4 @@
+require 'csv'
 require 'ipaddr'
 require 'digi_fi'
 
@@ -64,14 +65,19 @@ class MessagesController < ApplicationController
     respond_with @message
   end
 
+  PHONE_TO_LAT_LONG = {}
+  CSV.foreach("connecting-light.csv", headers: true) do |row|
+    PHONE_TO_LAT_LONG[row["number"]] = [row["latitude"],row["longitude"]]
+  end
+
   def sms
+    latitude, longitude = PHONE_TO_LAT_LONG[params[:To]] || [0,0]
     @message = Message.new(
       red: 255,
       green: 0,
       blue: 234,
-      latitude: 70,
-      longitude: 40,
-      location_on_wall: 0,
+      latitude: latitude,
+      longitude: longitude,
       animation_data: "/wF//wH/////g+AAf/4AAAAAAAAAAAAAB///////6ABAAAAA",
       message: params[:Body]
     )
@@ -80,6 +86,7 @@ class MessagesController < ApplicationController
       expire_action :action => :index
       digi_fi_client.send_message(@message)
     end
+
     render nothing: true
   end
 
