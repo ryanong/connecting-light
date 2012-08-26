@@ -58,8 +58,8 @@ class MessagesController < ApplicationController
     @message.ip_address = IPAddr.new(request.remote_ip).to_i
     if @message.save
       expire_action :action => :index
+      @message.update_animation_data! if @message[:animation_data].blank?
       digi_fi_client.send_message(@message)
-      @message.update_animation_data!
     end
     respond_with @message
   end
