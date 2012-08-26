@@ -80,7 +80,7 @@ class MessagesController < ApplicationController
       expire_action :action => :index
       digi_fi_client.send_message(@message)
     end
-    respond_with @message
+    render nothing: true
   end
 
   def digi_fi_client
