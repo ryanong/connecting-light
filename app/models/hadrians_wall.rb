@@ -22,14 +22,7 @@ class HadriansWall
     end
 
     def distance_along_the_wall(point)
-      distance = 0.0
-      last_wall_point = POINTS.first
-      POINTS.each do |wall_point|
-        distance += euclidean_distance(last_wall_point, wall_point)
-        return distance if wall_point == point
-        last_wall_point = wall_point
-      end
-      return nil
+      LENGTHS[point]
     end
 
     def euclidean_distance(vector1, vector2)
@@ -246,5 +239,13 @@ class HadriansWall
     [-1.52729, 54.9858]
   ]
 
-  LENGTH = distance_along_the_wall(POINTS.last)
+  distance = 0.0
+  last_wall_point = POINTS.first
+  LENGTHS = Hash[POINTS.map do |wall_point|
+    distance += euclidean_distance(last_wall_point, wall_point)
+    last_wall_point = wall_point
+    [wall_point, distance]
+  end]
+
+  LENGTH = distance
 end
