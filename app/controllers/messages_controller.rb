@@ -71,12 +71,13 @@ class MessagesController < ApplicationController
       blue: 234,
       latitude: 70,
       longitude: 40,
-      message: params[:body]
+      location_on_wall: 0,
+      animation_data: "/wF//wH/////g+AAf/4AAAAAAAAAAAAAB///////6ABAAAAA",
+      message: params[:Body]
     )
 
     if @message.save
       expire_action :action => :index
-      @message.update_animation_data!
       digi_fi_client.send_message(@message)
     end
     respond_with @message
