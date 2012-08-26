@@ -3,5 +3,9 @@ ConnectingLight::Application.routes.draw do
 
   root to: "application#welcome"
   get "time" => "application#time"
-  resources :messages, except: [:edit, :update]
+  resources :messages, except: [:edit, :update] do
+    collection do
+      post :sms
+    end
+  end
 end

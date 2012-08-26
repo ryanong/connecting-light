@@ -64,6 +64,24 @@ class MessagesController < ApplicationController
     respond_with @message
   end
 
+  def sms
+    @message = Message.new(
+      red: 255,
+      green: 0,
+      blue: 234,
+      latitude: 70,
+      longitude: 40,
+      message: params[:body]
+    )
+
+    if @message.save
+      expire_action :action => :index
+      @message.update_animation_data!
+      digi_fi_client.send_message(@message)
+    end
+    respond_with @message
+  end
+
   def digi_fi_client
     @digi_fi_client ||= DigiFi.new
   end
