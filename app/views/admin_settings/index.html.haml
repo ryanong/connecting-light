@@ -47,5 +47,9 @@
       $form.find("input[type=text]").val(ui.value);
       $form.submit();
     }
+    options["slide"] = function( event, ui ) {
+      var $form = $("#edit_admin_setting_"+options.postId)
+      $form.find("input[type=text]").val(ui.value);
+    }
     $this.slider($this.data());
   });
