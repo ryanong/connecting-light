@@ -6,15 +6,7 @@ class AdminSettingsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json {
-        settings = {
-          time: Time.now.to_i
-        }
-        @admin_settings.each do |setting|
-          settings[setting.name] = setting.value
-        end
-        render json: settings
-      }
+      format.json { render json: AdminSetting.fetch.merge(time: Time.now.to_i) }
     end
   end
 
