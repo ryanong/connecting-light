@@ -7,7 +7,9 @@ class AdminSettingsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json {
-        settings = {}
+        settings = {
+          time: Time.now.to_i
+        }
         @admin_settings.each do |setting|
           settings[setting.name] = setting.value
         end
