@@ -2,7 +2,7 @@ require 'matrix'
 
 class Message < ActiveRecord::Base
   attr_accessible :latitude, :longitude, :message, :red, :green, :blue, :animation_data, :location_on_wall
-  before_save :calculate_location_on_wall!
+  before_save :calculate_location_on_wall!, unless: :location_on_wall?
 
   validates :message, :red, :green, :blue,
     presence: true
@@ -21,7 +21,6 @@ class Message < ActiveRecord::Base
   end
 
   def calculate_location_on_wall!
-    return true if location_on_wall
     return set_random_location! if latitude.blank? || longitude.blank?
 
     self.location_on_wall = HadriansWall.percent_along_the_wall([longitude, latitude])
@@ -63,7 +62,7 @@ class Message < ActiveRecord::Base
       }
     )
     if response.success?
-      self.update_column(animation_data: response.body)
+      self.update_column(:animation_data, response.body)
       return true
     elsif response.timed_out?
       Rails.logger.error("got a time out")
