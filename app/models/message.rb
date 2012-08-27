@@ -63,8 +63,7 @@ class Message < ActiveRecord::Base
       }
     )
     if response.success?
-      self.animation_data = response.body
-      self.save
+      self.update_column(animation_data: response.body)
       return true
     elsif response.timed_out?
       Rails.logger.error("got a time out")
