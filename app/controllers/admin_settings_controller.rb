@@ -6,7 +6,13 @@ class AdminSettingsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @admin_settings }
+      format.json {
+        settings = {}
+        @admin_settings.each do |setting|
+          settings[setting.name] = setting.value
+        end
+        render json: settings
+      }
     end
   end
 
