@@ -56,7 +56,7 @@ class Message < ActiveRecord::Base
 
   def update_animation_data!
     response = Typhoeus::Request.get(
-      "http://198.101.204.58:8888/tts.of",
+      "http://198.101.204.58/tts.of",
       params: {
         text: message,
         type: "base64"
