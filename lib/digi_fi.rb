@@ -10,8 +10,59 @@ class DigiFi
     @password = password
   end
 
-  def send_message(message)
-    body = sci_request(set_color(message).to_json)
+  def set_color(message)
+    body = sci_request(
+      "set_color",
+      set_color_params(message).to_json
+    )
+    send_message(body)
+  end
+
+  def set_color_params(message)
+    [{
+      srcLoc: message.location_on_wall,
+      srcTime: message.created_at.to_i,
+      targetColor: [message.red, message.green, message.blue],
+      blob: message.animation_data
+    }.merge(AdminSetting.fetch)]
+  end
+
+  def reload_json_settings
+    body = sci_request("reload_json_settings")
+    send_message(body)
+  end
+
+  def send_hello_world_ping
+    body = sci_request("send_hello_world_ping")
+    send_message(body)
+  end
+
+  def send_admin_settings
+    body = sci_request(
+      "admin_settings",
+      AdminSetting.fetch.to_json
+    )
+    send_message(body)
+  end
+
+  def sci_request(command, params = nil)
+    Builder::XmlMarkup.new.sci_request(version: "1.0") do |sci_request|
+      sci_request.send_message(synchronous: "false") do |send_message|
+        send_message.targets do |targets|
+          targets.device(id: "all")
+        end
+        sci_request.rci_request(version: "1.1") do |rci_request|
+          if params
+            rci_request.do_command(params, target: command)
+          else
+            rci_request.do_command(target: command)
+          end
+        end
+      end
+    end
+  end
+
+  def send_message(body)
     Typhoeus::Request.post(
       "#{host}/ws/sci",
       :body    => body,
@@ -23,28 +74,7 @@ class DigiFi
     )
   end
 
-  def sci_request(message)
-    Builder::XmlMarkup.new.sci_request(version: "1.0") do |sci_request|
-      sci_request.send_message(synchronous: "false") do |send_message|
-        send_message.targets do |targets|
-          targets.device(id: "all")
-        end
-        sci_request.rci_request(version: "1.1") do |rci_request|
-          rci_request.do_command(message, target: "set_color")
-        end
-      end
-    end
-  end
-
-  def set_color(message)
-    [{
-      srcLoc: message.location_on_wall,
-      srcTime: message.created_at.to_i,
-      targetColor: [message.red, message.green, message.blue],
-      blob: message.animation_data,
-      time: Time.now.to_i
-    }.merge(AdminSetting.fetch)]
-  end
+  private
 
   def auth_base64
     Base64.encode64("#{username}:#{password}").strip

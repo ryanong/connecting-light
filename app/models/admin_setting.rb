@@ -42,8 +42,8 @@ class AdminSetting < ActiveRecord::Base
   end
 
   def self.fetch
-    Rails.cache.fetch("admin-settings") do
-      self.get
-    end
+    Rails.cache.
+      fetch("admin-settings") { self.get }.
+      merge(time: Time.now.to_i)
   end
 end

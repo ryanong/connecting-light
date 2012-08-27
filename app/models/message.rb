@@ -12,7 +12,7 @@ class Message < ActiveRecord::Base
       greater_than_or_equal_to: -180,
       less_than_or_equal_to: 180,
       allow_nil: true
-    }, unless: :location_of_wall?
+    }, unless: :location_on_wall?
 
   validate :one_message_per_5_seconds, on: :createt
 
