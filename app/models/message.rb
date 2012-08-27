@@ -2,7 +2,7 @@ require 'matrix'
 
 class Message < ActiveRecord::Base
   attr_accessible :latitude, :longitude, :message, :red, :green, :blue, :animation_data, :location_on_wall
-  before_save :calculate_location_on_wall!, unless: :location_on_wall?
+  before_save :calculate_location_on_wall!
 
   validates :message, :red, :green, :blue,
     presence: true
@@ -20,7 +20,8 @@ class Message < ActiveRecord::Base
     order("id DESC")
   end
 
-  def calculate_location_on_wall!
+  def calculate_location_on_wall!(force = false)
+    return true if force == true || self.location_on_wall?
     return set_random_location! if latitude.blank? || longitude.blank?
 
     self.location_on_wall = HadriansWall.percent_along_the_wall([longitude, latitude])
