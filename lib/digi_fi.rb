@@ -63,6 +63,7 @@ class DigiFi
   end
 
   def send_request(body)
+    Rails.logger.info(body)
     Typhoeus::Request.post(
       "#{host}/ws/sci",
       :body    => body,

@@ -89,8 +89,4 @@ class MessagesController < ApplicationController
 
     render nothing: true
   end
-
-  def digi_fi_client
-    @digi_fi_client ||= DigiFi.new
-  end
 end

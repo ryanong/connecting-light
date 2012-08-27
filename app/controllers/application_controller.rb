@@ -11,4 +11,10 @@ class ApplicationController < ActionController::Base
       format.json { render json: { time: Time.now.to_i } }
     end
   end
+
+  protected
+
+  def digi_fi_client
+    @digi_fi_client ||= DigiFi.new
+  end
 end

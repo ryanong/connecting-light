@@ -21,7 +21,7 @@ class Message < ActiveRecord::Base
   end
 
   def calculate_location_on_wall!(force = false)
-    return true if force == true || self.location_on_wall?
+    return true if !self.location_on_wall.nil? && !force
     return set_random_location! if latitude.blank? || longitude.blank?
 
     self.location_on_wall = HadriansWall.percent_along_the_wall([longitude, latitude])
