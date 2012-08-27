@@ -26,7 +26,7 @@ class AdminSetting < ActiveRecord::Base
   end
 
   def step
-    (max - min) / 20
+    (max - min) / 100
   end
 
   def value_within_range_if_minmax_is_set
