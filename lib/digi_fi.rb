@@ -10,12 +10,12 @@ class DigiFi
     @password = password
   end
 
-  def set_color(message)
+  def send_message(message)
     body = sci_request(
       "set_color",
       set_color_params(message).to_json
     )
-    send_message(body)
+    send_request(body)
   end
 
   def set_color_params(message)
@@ -29,12 +29,12 @@ class DigiFi
 
   def reload_json_settings
     body = sci_request("reload_json_settings")
-    send_message(body)
+    send_request(body)
   end
 
   def send_hello_world_ping
     body = sci_request("send_hello_world_ping")
-    send_message(body)
+    send_request(body)
   end
 
   def send_admin_settings
@@ -42,7 +42,7 @@ class DigiFi
       "admin_settings",
       AdminSetting.fetch.to_json
     )
-    send_message(body)
+    send_request(body)
   end
 
   def sci_request(command, params = nil)
@@ -62,7 +62,7 @@ class DigiFi
     end
   end
 
-  def send_message(body)
+  def send_request(body)
     Typhoeus::Request.post(
       "#{host}/ws/sci",
       :body    => body,
