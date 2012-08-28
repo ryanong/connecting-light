@@ -44,7 +44,7 @@ class Message < ActiveRecord::Base
   end
 
   def as_json(args = {})
-    super({except: [:created_at, :updated_at, :ip_address, :latitude, :longitude],
+    super({except: [:created_at, :updated_at, :ip_address],
       methods: [:post_time, :rgb]}.merge(args))
   end
 
@@ -63,7 +63,7 @@ class Message < ActiveRecord::Base
       }
     )
     if response.success?
-      self.update_column(:animation_data, response.body)
+      self.animation_data = response.body
       return true
     elsif response.timed_out?
       Rails.logger.error("got a time out")

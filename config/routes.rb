@@ -1,4 +1,6 @@
 ConnectingLight::Application.routes.draw do
+  get "viz/map"
+
   resources :admin_settings do
     collection do
       post :send_hello_world_ping
@@ -12,6 +14,7 @@ ConnectingLight::Application.routes.draw do
   resources :messages, except: [:edit, :update] do
     collection do
       post :sms
+      get :hadrians_mapbox
     end
   end
 end

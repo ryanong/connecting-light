@@ -45,11 +45,31 @@ class DigiFi
     send_request(body)
   end
 
+  COORDINATORS = {
+    connectinglight_a: "00409DFF-FF6A6A37",
+    connectinglight_b: "00409DFF-FF6A6A35",
+    connectinglight_c: "00409DFF-FF6A6A33",
+    connectinglight_d: "00409DFF-FF6A6A2F",
+    connectinglight_e: "00409DFF-FF6A6A2E",
+    connectinglight_f: "00409DFF-FF6B0889",
+    connectinglight_g: "00409DFF-FF6A6A2C",
+    connectinglight_h: "00409DFF-FF6A6A2B",
+    connectinglight_i: "00409DFF-FF6A6A29",
+    connectinglight_j: "00409DFF-FF6B0888",
+    connectinglight_k: "00409DFF-FF6A6A2A",
+    connectinglight_l: "00409DFF-FF6A6A30",
+    connectinglight_m: "00409DFF-FF6B0886",
+    connectinglight_o: "00409DFF-FF6A6A32",
+    connectinglight_n: "00409DFF-FF6A6A36"
+  }
+
   def sci_request(command, params = nil)
     Builder::XmlMarkup.new.sci_request(version: "1.0") do |sci_request|
-      sci_request.send_message(synchronous: "false") do |send_message|
+      sci_request.send_message do |send_message|
         send_message.targets do |targets|
-          targets.device(id: "all")
+          COORDINATORS.values.each do |id|
+            targets.device(id: id)
+          end
         end
         sci_request.rci_request(version: "1.1") do |rci_request|
           if params

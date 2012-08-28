@@ -1,0 +1,25 @@
+/*
+ *= require jquery.ui.slider
+ *= require scaffold
+ *= require_self
+ */
+
+.admin_settings {
+  width: 960px;
+}
+
+.admin_settings .numeric {
+  width: 300px;
+}
+
+.hadrians-mapbox {
+  background: image-url('hadrian-mapbox.png') no-repeat;
+  width: 1434px;
+  height: 710px;
+  position: relative;
+  .message {
+    color: #FFF;
+    position: absolute;
+    display: none;
+  }
+}

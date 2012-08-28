@@ -14,6 +14,9 @@ gem 'typhoeus'
 
 gem 'rack-cors', :require => 'rack/cors'
 
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+
 group :development do
   gem 'newrelic_rpm'
   gem 'thin'
@@ -22,8 +25,10 @@ group :development do
 end
 
 group :assets do
+  gem 'sass-rails'
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
+group :test do
+  gem 'minitest-rails'
+end

@@ -1,0 +1,58 @@
+.hadrians-mapbox
+  .message is an awesome test
+
+:javascript
+  function HadriansWall() {
+    var hadriansWall = this;
+    this.lastMessageId = 0;
+    this.map = $(".hadrians-mapbox")
+    this.mapBox = {
+      east: -1.2657,
+      north: 55.2594,
+      south: 54.6989,
+      west: -3.235
+    };
+
+    this.longLength = this.mapBox.west - this.mapBox.east;
+    this.latLength = this.mapBox.north - this.mapBox.south;
+    this.latLongToXY = function(lat,lng) {
+      return [(hadriansWall.mapBox.west - lng)/hadriansWall.longLength * hadriansWall.map.width(), (hadriansWall.mapBox.north - lat) / this.latLength * this.map.height()];
+    };
+
+    this.post = function(message,latitude, longitude, color) {
+      coord = hadriansWall.latLongToXY(latitude, longitude);
+      $div = $("<div class='message'></div>");
+      $div.css('left', coord[0]);
+      $div.css('top', coord[1]);
+      if(color) {
+        $div.css('color', color);
+      }
+      $div.text("· " + message);
+      hadriansWall.map.append($div);
+      $div.fadeIn(1000, function(){
+        $(this).fadeOut(1000,function(){
+          this.parentNode.removeChild(this);
+        });
+      });
+    };
+
+    this.poll = function() {
+      $.get("/messages/hadrians_mapbox.json", function(data){
+        $(data.messages).each(function () {
+          if(this.id > hadriansWall.lastMessageId){
+            console.log(this);
+            hadriansWall.post(this.message, this.latitude, this.longitude, "rgb("+this.rgb.join(',')+")");
+            hadriansWall.lastMessageId = this.id;
+          }
+        });
+        setTimeout(hadriansWall.poll, 500);
+      });
+    };
+
+    this.poll();
+  }
+  var hadriansWall = new HadriansWall();
+
+
+
+
