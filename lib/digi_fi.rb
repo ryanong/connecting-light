@@ -65,7 +65,7 @@ class DigiFi
 
   def sci_request(command, params = nil)
     Builder::XmlMarkup.new.sci_request(version: "1.0") do |sci_request|
-      sci_request.send_message do |send_message|
+      sci_request.send_message(synchronous: "false") do |send_message|
         send_message.targets do |targets|
           COORDINATORS.values.each do |id|
             targets.device(id: id)

@@ -22,10 +22,11 @@ group :development do
   gem 'thin'
   gem 'pry-rails'
   gem 'pry-nav'
+  gem 'sass-rails'
 end
 
 group :assets do
-  gem 'sass-rails'
+  gem 'sass'
   gem 'uglifier', '>= 1.0.3'
 end
 
