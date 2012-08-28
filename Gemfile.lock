@@ -154,6 +154,7 @@ DEPENDENCIES
   pry-rails
   rack-cors
   rails (= 3.2.7)
+  sass
   sass-rails
   simple_form
   thin
