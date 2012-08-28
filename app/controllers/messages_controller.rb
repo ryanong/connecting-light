@@ -78,7 +78,7 @@ class MessagesController < ApplicationController
       @message.update_animation_data! if @message[:animation_data].blank?
       @message.save
       expire_action :action => :index
-      expire_action :action => :hadrians_mapbox
+      expire_action :action => :hadrians_mapbox, format: :json
       digi_fi_client.send_message(@message)
     end
     respond_with @message
