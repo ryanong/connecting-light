@@ -48,10 +48,10 @@ class MessagesController < ApplicationController
     @messages = Message.order("id DESC").limit(500)
 
     box = {
-      east: -1.180793,
-      north: 55.201118,
-      south: 54.587708,
-      west: -3.33511
+      east: -1.2657,
+      north: 55.2594,
+      south: 54.6989,
+      west: -3.235
     }
 
     @messages = @messages.where("latitude <= :north AND latitude >= :south AND longitude >= :west AND longitude <= :east", box)
