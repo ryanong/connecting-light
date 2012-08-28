@@ -19,8 +19,10 @@ class MessagesController < ApplicationController
   def index
     @messages = Message.order("id DESC").limit(1000)
 
-    if params[:count].is_a?(Numeric)
+    if params[:count] =~ /\A\d+\Z/
       @messages = @messages.limit(params[:count])
+    else
+
     end
 
     if params[:since_id]
