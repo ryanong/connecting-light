@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
   def index
     @messages = Message.order("id DESC")
     if params[:page]
-      @messages = @message.page(params[:page])
+      @messages = @messages.page(params[:page])
     else
       if params[:count] =~ /\A\d+\Z/
         @messages = @messages.limit(params[:count])
