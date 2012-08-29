@@ -23,8 +23,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'haml-rails'
+
 group :development do
-  gem 'haml-rails'
   gem 'newrelic_rpm'
   gem 'thin'
   gem 'pry-rails'
