@@ -54,6 +54,10 @@ GEM
       jquery-rails
       railties (>= 3.1.0)
     json (1.7.4)
+    kaminari (0.13.0)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      railties (>= 3.0.0)
     kgio (2.7.4)
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -147,6 +151,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   jquery-ui-rails
+  kaminari
   minitest-rails
   newrelic_rpm
   pg
