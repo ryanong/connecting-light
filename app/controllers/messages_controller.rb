@@ -26,7 +26,7 @@ class MessagesController < ApplicationController
     end
 
     if params[:since_id]
-      @messages = @messages.where('id >= ?', params[:since_id])
+      @messages = @messages.where('id >= ?', params[:since_id].to_i)
     end
 
     if params[:since_time]
