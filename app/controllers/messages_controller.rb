@@ -13,16 +13,20 @@ class MessagesController < ApplicationController
     cache_path << "since_time=#{params[:since_time]}" if params[:since_time]
     cache_path << "from_location=#{params[:from_location]}" if params[:from_location]
     cache_path << "to_location=#{params[:to_location]}" if params[:to_location]
+    cache_path << "page=#{params[:page]}" if params[:page]
     cache_path
   }
 
   def index
-    @messages = Message.order("id DESC").limit(1000)
-
-    if params[:count] =~ /\A\d+\Z/
-      @messages = @messages.limit(params[:count])
+    @messages = Message.order("id DESC")
+    if params[:page]
+      @messages = @message.page(params[:page])
     else
-
+      if params[:count] =~ /\A\d+\Z/
+        @messages = @messages.limit(params[:count])
+      else
+        @messages = @messages.limit(1000)
+      end
     end
 
     if params[:since_id]
@@ -92,14 +96,13 @@ class MessagesController < ApplicationController
   end
 
   def sms
-    # latitude, longitude = PHONE_TO_LAT_LONG[params[:To]] || [0,0]
+    latitude, longitude = PHONE_TO_LAT_LONG[params[:To]] || [0,0]
     @message = Message.new(
       red: 255,
       green: 0,
       blue: 234,
-      # latitude: latitude,
-      # longitude: longitude,
-      location_on_wall: 0,
+      latitude: latitude,
+      longitude: longitude,
       animation_data: "/wF//wH/////g+AAf/4AAAAAAAAAAAAAB///////6ABAAAAA",
       message: params[:Body]
     )
