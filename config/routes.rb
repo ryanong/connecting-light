@@ -6,6 +6,7 @@ ConnectingLight::Application.routes.draw do
       post :send_hello_world_ping
       post :reload_json_settings
       post :send_admin_settings
+      post :do_clear_messages
     end
   end
 

@@ -98,4 +98,9 @@ class AdminSettingsController < ApplicationController
     digi_fi_client.send_admin_settings
     redirect_to admin_settings_path
   end
+
+  def do_clear_messages
+    digi_fi_client.do_clear_messages
+    redirect_to admin_settings_path
+  end
 end

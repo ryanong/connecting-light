@@ -37,6 +37,11 @@ class DigiFi
     send_request(body)
   end
 
+  def do_clear_messages
+    body = sci_request("do_clear_messages")
+    send_request(body)
+  end
+
   def send_admin_settings
     body = sci_request(
       "admin_settings",
