@@ -15,7 +15,7 @@ class HadriansWall
 
     def percent_along_the_wall(point)
       if distance = distance_along_the_wall(closest_wall_point(point))
-        distance / LENGTH * 100
+        distance / LENGTH
       else
         return nil
       end
