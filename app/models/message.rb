@@ -32,7 +32,7 @@ class Message < ActiveRecord::Base
   end
 
   def set_random_location!
-    self.location_on_wall = rand(0.0..100.0)
+    self.location_on_wall = rand(0.0..1.0)
   end
 
   def animation_data
