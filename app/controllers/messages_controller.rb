@@ -96,13 +96,14 @@ class MessagesController < ApplicationController
   end
 
   def sms
-    latitude, longitude = PHONE_TO_LAT_LONG[params[:To]] || [0,0]
+    # latitude, longitude = PHONE_TO_LAT_LONG[params[:To]] || [0,0]
     @message = Message.new(
       red: 255,
       green: 0,
       blue: 234,
-      latitude: latitude,
-      longitude: longitude,
+      # latitude: latitude,
+      # longitude: longitude,
+      location_on_wall: 0,
       animation_data: "/wF//wH/////g+AAf/4AAAAAAAAAAAAAB///////6ABAAAAA",
       message: params[:Body]
     )
