@@ -44,7 +44,6 @@ class AdminSettingsController < ApplicationController
 
     respond_to do |format|
       if @admin_setting.save
-        digi_fi_client.send_admin_settings
         format.html { redirect_to @admin_setting, notice: 'Admin setting was successfully created.' }
         format.json { render json: @admin_setting, status: :created, location: @admin_setting }
       else
@@ -58,7 +57,6 @@ class AdminSettingsController < ApplicationController
   # PUT /admin_settings/1.json
   def update
     @admin_setting = AdminSetting.find(params[:id])
-    digi_fi_client.send_admin_settings
 
     respond_to do |format|
       if @admin_setting.update_attributes(params[:admin_setting])
@@ -76,7 +74,6 @@ class AdminSettingsController < ApplicationController
   def destroy
     @admin_setting = AdminSetting.find(params[:id])
     @admin_setting.destroy
-    digi_fi_client.send_admin_settings
 
     respond_to do |format|
       format.html { redirect_to admin_settings_url }
