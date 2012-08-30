@@ -1,19 +1,36 @@
+require 'csv'
+
 class HadriansWall
   class << self
+    def closest_ballon(point)
+      minimum_distance = nil
+      closest = nil
+      BALLOONS.each do |balloon|
+        distance = euclidean_distance(point, balloon)
+        if minimum_distance.nil? || minimum_distance > distance
+          minimum_distance = distance
+          closest = balloon
+        end
+      end
+      closest
+    end
+
     def closest_wall_point(point)
       minimum_distance = nil
       closest_point = nil
+      last_wall_point = POINTS.first
       POINTS.each do |wall_point|
-        distance = euclidean_distance(point, wall_point)
+        closest_point_to_line, distance = closest_point_and_distance(point, last_wall_point, wall_point)
         if minimum_distance.nil? || minimum_distance > distance
           minimum_distance = distance
-          closest_point = wall_point
+          closest_point = closest_point_to_line
         end
       end
       closest_point
     end
 
     def percent_along_the_wall(point)
+      point = closest_ballon(point)
       if distance = distance_along_the_wall(closest_wall_point(point))
         distance / LENGTH
       else
@@ -34,6 +51,38 @@ class HadriansWall
       end
       Math.sqrt(sum)
     end
+
+    def closest_point_and_distance(point, start, finish)
+      if(start == finish)
+        return [start, euclidean_distance(point, start)]
+      end
+
+      l2 = distance_squared(start, finish);
+      t = ((point[0] - start[0]) * (finish[0] - start[0]) + (p[1] - start[1]) * (finish[1] - start[1])) / l2;
+
+      if(t < 0)
+        return [start, euclidean_distance(point, start)];
+      end
+
+      if(t > 1)
+        return [finish, euclidean_distance(point, finish)];
+      end
+
+      closest_point = [start[0] + t * (finish[0] - start[0]),
+                        start[1] + t * (finish[1] - start[1])]
+      return [point, euclidean_distance(point, closest_point)];
+    end
+
+    def distance_squared(v,w)
+      (v[0] - w[0])**2 + (v[1] - w[1])**2
+    end
+
+  end
+
+  BALLOONS = []
+
+  CSV.foreach(Rails.root.join("balloons.csv"), headers:true) do |row|
+    BALLOONS << [row["longitude"].to_f, row["latitude"].to_f]
   end
 
   POINTS = [
