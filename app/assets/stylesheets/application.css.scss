@@ -3,6 +3,7 @@
  *= require scaffold
  *= require_self
  */
+@import "compass/css3/border-radius";
 
 .admin_settings {
   width: 960px;
@@ -12,11 +13,25 @@
   width: 300px;
 }
 
-.hadrians-mapbox {
+#hadrians-mapbox {
   background: image-url('hadrian-mapbox.png') no-repeat;
   width: 1434px;
   height: 710px;
   position: relative;
+  ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1em;
+    text-indent: -1em;
+  }
+  .point {
+    position: absolute;
+    display: none;
+    background: white;
+    width: 7px;
+    height: 7px;
+    @include border-radius(100px, 100px);
+  }
   .message {
     color: #FFF;
     position: absolute;

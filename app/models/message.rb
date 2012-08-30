@@ -20,6 +20,10 @@ class Message < ActiveRecord::Base
     order("id DESC")
   end
 
+  def closest_wall_point
+    HadriansWall.closest_wall_point([longitude, latitude])
+  end
+
   def calculate_location_on_wall!(force = false)
     return true if !self.location_on_wall.nil? && !force
     return set_random_location! if latitude.blank? || longitude.blank?

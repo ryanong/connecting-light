@@ -1,17 +1,15 @@
-.hadrians-mapbox
-  .message is an awesome test
+#hadrians-mapbox
+  %ul#points
+
+  %ul#balloons
+
 
 :javascript
   function HadriansWall() {
     var hadriansWall = this;
     this.lastMessageId = 0;
-    this.map = $(".hadrians-mapbox")
-    this.mapBox = {
-      east: -1.2657,
-      north: 55.2594,
-      south: 54.6989,
-      west: -3.235
-    };
+    this.map = $("#hadrians-mapbox")
+    this.mapBox = #{@map_box.to_json};
 
     this.longLength = this.mapBox.west - this.mapBox.east;
     this.latLength = this.mapBox.north - this.mapBox.south;
@@ -19,29 +17,59 @@
       return [(hadriansWall.mapBox.west - lng)/hadriansWall.longLength * hadriansWall.map.width(), (hadriansWall.mapBox.north - lat) / this.latLength * this.map.height()];
     };
 
-    this.post = function(message,latitude, longitude, color) {
-      coord = hadriansWall.latLongToXY(latitude, longitude);
-      $div = $("<div class='message'></div>");
-      $div.css('left', coord[0]);
-      $div.css('top', coord[1]);
+    this.balloons = #{HadriansWall::BALLOONS.map(&:reverse).to_json};
+
+    this.points = #{HadriansWall::POINTS.map(&:reverse).to_json};
+
+    this.flashRandomPoint = function() {
+      hadriansWall.flashPoint(hadriansWall.randomPoint());
+    };
+
+    var points_container = $("ul#points")
+    this.flashPoint = function(point, color) {
+      var coord = hadriansWall.latLongToXY(point[0], point[1]);
+      var $point = $("<li class='point'></li>");
+      $point.css('left', coord[0] - 4);
+      $point.css('top', coord[1] - 4);
       if(color) {
-        $div.css('color', color);
+        $point.css('background', color);
       }
-      $div.text("· " + message);
-      hadriansWall.map.append($div);
-      $div.fadeIn(1000, function(){
-        $(this).fadeOut(1000,function(){
-          this.parentNode.removeChild(this);
+      points_container.append($point);
+      $point.fadeIn(1000, function(){
+        this.fadeOut(1000,function(){
+          this[0].parentNode.removeChild(this[0]);
+        });
+      });
+    };
+
+    this.randomPoint = function() {
+      return hadriansWall.points[Math.floor(Math.random() * hadriansWall.points.length)]
+    };
+
+    this.flashMessage = function(message,latitude, longitude, color) {
+      coord = hadriansWall.latLongToXY(latitude, longitude);
+      $message = $("<div class='message'></div>");
+      $message.css('left', coord[0]);
+      $message.css('top', coord[1]);
+      if(color) {
+        $message.css('color', color);
+      }
+      $message.text("· " + message);
+      hadriansWall.map.append($message);
+      $message.fadeIn(1000, function(){
+        this.fadeOut(1000,function(){
+          this[0].parentNode.removeChild(this[0]);
         });
       });
     };
 
     this.poll = function() {
-      $.get("/messages/hadrians_mapbox.json", function(data){
+      $.get("/messages/hadrians_mapbox.json", {map_box: hadriansWall.mapBox}, function(data){
         $(data.messages).each(function () {
           if(this.id > hadriansWall.lastMessageId){
-            console.log(this);
-            hadriansWall.post(this.message, this.latitude, this.longitude, "rgb("+this.rgb.join(',')+")");
+            var color = "rgb("+this.rgb.join(',')+")";
+            hadriansWall.flashMessage(this.message, this.latitude, this.longitude, color);
+            hadriansWall.flashPoint([this.closest_wall_point[1],this.closest_wall_point[0]], color);
             hadriansWall.lastMessageId = this.id;
           }
         });

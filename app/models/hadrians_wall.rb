@@ -25,6 +25,7 @@ class HadriansWall
           minimum_distance = distance
           closest_point = closest_point_to_line
         end
+        last_wall_point = wall_point
       end
       closest_point
     end
@@ -58,7 +59,7 @@ class HadriansWall
       end
 
       l2 = distance_squared(start, finish);
-      t = ((point[0] - start[0]) * (finish[0] - start[0]) + (p[1] - start[1]) * (finish[1] - start[1])) / l2;
+      t = ((point[0] - start[0]) * (finish[0] - start[0]) + (point[1] - start[1]) * (finish[1] - start[1])) / l2;
 
       if(t < 0)
         return [start, euclidean_distance(point, start)];
@@ -70,7 +71,7 @@ class HadriansWall
 
       closest_point = [start[0] + t * (finish[0] - start[0]),
                         start[1] + t * (finish[1] - start[1])]
-      return [point, euclidean_distance(point, closest_point)];
+      return [closest_point, euclidean_distance(point, closest_point)];
     end
 
     def distance_squared(v,w)
