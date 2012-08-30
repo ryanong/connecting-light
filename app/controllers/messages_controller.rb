@@ -92,7 +92,7 @@ class MessagesController < ApplicationController
 
   PHONE_TO_LAT_LONG = {}
   CSV.foreach("connecting-light.csv", headers: true) do |row|
-    PHONE_TO_LAT_LONG[row["number"]] = [row["latitude"],row["longitude"]]
+    PHONE_TO_LAT_LONG[row["number"]] = [row["latitude"].to_f,row["longitude"].to_f]
   end
 
   def sms
