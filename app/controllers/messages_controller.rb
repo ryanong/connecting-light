@@ -84,7 +84,7 @@ class MessagesController < ApplicationController
   end
 
   PHONE_TO_LAT_LONG = {}
-  CSV.foreach("connecting-light.csv", headers: true) do |row|
+  CSV.foreach(Rails.root.join("data","connecting-light.csv"), headers: true) do |row|
     PHONE_TO_LAT_LONG[row["number"]] = [row["latitude"].to_f,row["longitude"].to_f]
   end
 
