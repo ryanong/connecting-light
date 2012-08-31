@@ -69,7 +69,7 @@
       if(tmp[1]) {
         setTimeout(function(){ hadriansWall.continue_wave(tmp[0], tmp[1]); },1000);
       } else {
-        hadriansWall.flashPoint(tmp[0]);
+        setTimeout(function(){ hadriansWall.flashPoint(tmp[0]); },1000);
       }
     };
 
