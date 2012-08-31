@@ -65,7 +65,7 @@
 
     this.continue_wave = function(point, wall_point){
       hadriansWall.flashPoint(point);
-      var tmp = hadriansWall.next_point_from(point, wall_point, 0.1);
+      var tmp = hadriansWall.next_point_from(point, wall_point, 0.02);
       if(tmp[1]) {
         setTimeout(function(){ hadriansWall.continue_wave(tmp[0], tmp[1]); },1000);
       } else {
@@ -125,6 +125,7 @@
       });
     };
 
+    this.continue_wave(this.points[0],1);
     this.poll();
   }
   var hadriansWall = new HadriansWall();
