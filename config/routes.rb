@@ -1,5 +1,9 @@
 ConnectingLight::Application.routes.draw do
-  resources :logs
+  resources :logs do
+    collection do
+      get :create
+    end
+  end
 
   get "viz/map"
 

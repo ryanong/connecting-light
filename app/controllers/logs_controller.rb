@@ -40,7 +40,11 @@ class LogsController < ApplicationController
   # POST /logs
   # POST /logs.json
   def create
-    @log = Log.new(params[:log])
+    if params[:log].is_a?(String)
+      @log = Log.new(message: params[:log])
+    else
+      @log = Log.new(params[:log])
+    end
 
     respond_to do |format|
       if @log.save
