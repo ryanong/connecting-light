@@ -25,6 +25,54 @@
       hadriansWall.flashPoint(hadriansWall.randomPoint());
     };
 
+    this.distance = function(start, finish){
+      return Math.sqrt(
+        Math.pow(finish[0]-start[0],2) + Math.pow(finish[1] - start[1],2)
+      );
+    }
+
+    this.point_on_line = function(start, finish, distance) {
+      var vector = []
+      vector[0] = finish[0] - start[0]
+      vector[1] = finish[1] - start[1]
+
+      var magnitude = Math.sqrt(Math.pow(vector[0],2) + Math.pow(vector[1],2));
+      vector[0] /= magnitude;
+      vector[1] /= magnitude;
+
+      var point = [
+        start[0] + vector[0] * (magnitude + distance),
+        start[1] + vector[1] * (magnitude + distance)
+      ];
+
+      return [point, distance - magnitude];
+    };
+
+    this.next_point_from = function(point, wall_point_index, distance) {
+      var next_wall_point = hadriansWall.points[wall_point_index];
+      var tmp = hadriansWall.point_on_line(point, next_wall_point, distance);
+      var next_point = tmp[0];
+      var distance_left = tmp[1];
+      if(distance_left > 0) {
+        if(hadriansWall.points[wall_point_index + 1]) {
+          return hadriansWall.next_point_from(next_wall_point, wall_point_index + 1, distance_left);
+        } else {
+          return [next_wall_point, false];
+        }
+      }
+      return [next_point, wall_point_index];
+    };
+
+    this.continue_wave = function(point, wall_point){
+      hadriansWall.flashPoint(point);
+      var tmp = hadriansWall.next_point_from(point, wall_point, 0.1);
+      if(tmp[1]) {
+        setTimeout(function(){ hadriansWall.continue_wave(tmp[0], tmp[1]); },1000);
+      } else {
+        hadriansWall.flashPoint(tmp[0]);
+      }
+    };
+
     var points_container = $("ul#points")
     this.flashPoint = function(point, color) {
       var coord = hadriansWall.latLongToXY(point[0], point[1]);
@@ -80,7 +128,3 @@
     this.poll();
   }
   var hadriansWall = new HadriansWall();
-
-
-
-
