@@ -64,8 +64,12 @@ class DigiFi
     connectinglight_k: "00409DFF-FF6A6A2A",
     connectinglight_l: "00409DFF-FF6A6A30",
     connectinglight_m: "00409DFF-FF6B0886",
+    connectinglight_n: "00409DFF-FF6A6A36",
     connectinglight_o: "00409DFF-FF6A6A32",
-    connectinglight_n: "00409DFF-FF6A6A36"
+    connectinglight_p: "00409DFF-FF6A6A31",
+    connectinglight_q: "00409DFF-FF6A6A2D",
+    connectinglight_r: "00409DFF-FF50EAE3",
+    connectinglight_s: "00409DFF-FF6B0887"
   }
 
   def sci_request(command, params = nil)
