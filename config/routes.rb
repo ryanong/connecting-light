@@ -1,7 +1,7 @@
 ConnectingLight::Application.routes.draw do
   resources :logs do
     collection do
-      get :create
+      get "post" => :create
     end
   end
 

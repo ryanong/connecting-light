@@ -1,4 +1,6 @@
 class LogsController < ApplicationController
+  skip_before_filter :verify_authenticity_token
+
   # GET /logs
   # GET /logs.json
   def index
