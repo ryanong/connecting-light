@@ -93,7 +93,6 @@ class MessagesController < ApplicationController
       blue: 234,
       latitude: latitude,
       longitude: longitude,
-      animation_data: "/wF//wH/////g+AAf/4AAAAAAAAAAAAAB///////6ABAAAAA",
       message: params[:Body]
     )
 
