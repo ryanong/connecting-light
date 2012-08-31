@@ -116,8 +116,13 @@
         $(data.messages).each(function () {
           if(this.id > hadriansWall.lastMessageId){
             var color = "rgb("+this.rgb.join(',')+")";
-            hadriansWall.flashMessage(this.message, this.latitude, this.longitude, color);
             hadriansWall.flashPoint([this.closest_wall_point[1],this.closest_wall_point[0]], color);
+            if (this.latitude <= hadriansWall.mapBox.north &&
+              this.latitude >= hadriansWall.mapBox.south &&
+              this.longitude >= hadriansWall.mapBox.west &&
+              this.longitude <= hadriansWall.mapBox.east) {
+              hadriansWall.flashMessage(this.message, this.latitude, this.longitude, color);
+            }
             hadriansWall.lastMessageId = this.id;
           }
         });

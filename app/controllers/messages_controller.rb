@@ -53,7 +53,6 @@ class MessagesController < ApplicationController
   def hadrians_mapbox
     @messages = Message.order("id DESC").limit(500)
 
-    @messages = @messages.where("latitude <= :north AND latitude >= :south AND longitude >= :west AND longitude <= :east", params[:map_box])
     @messages = @messages.where('created_at >= ?', 5.seconds.ago)
     render json: {messages: @messages.as_json(methods: [:post_time, :rgb, :closest_wall_point])}
   end
