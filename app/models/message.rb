@@ -14,7 +14,7 @@ class Message < ActiveRecord::Base
       allow_nil: true
     }, unless: :location_on_wall?
 
-  validate :one_message_per_5_seconds, on: :createt
+  validate :one_message_per_5_seconds, on: :create
 
   def self.latest
     order("id DESC")
