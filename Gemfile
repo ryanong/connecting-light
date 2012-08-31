@@ -14,6 +14,8 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'kaminari'
 
+gem 'newrelic_rpm'
+
 group :assets do
   gem 'sass-rails'
   gem 'compass-rails'
@@ -26,7 +28,6 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
 group :development do
-  gem 'newrelic_rpm'
   gem 'thin'
   gem 'pry-rails'
   gem 'pry-nav'
