@@ -8,7 +8,7 @@
   function HadriansWall() {
     var hadriansWall = this;
     this.lastMessageId = 0;
-    this.map = $("#hadrians-mapbox")
+    this.map = $("#hadrians-mapbox");
     this.mapBox = #{@map_box.to_json};
 
     this.longLength = this.mapBox.west - this.mapBox.east;
@@ -26,15 +26,13 @@
     };
 
     this.distance = function(start, finish){
-      return Math.sqrt(
-        Math.pow(finish[0]-start[0],2) + Math.pow(finish[1] - start[1],2)
-      );
-    }
+      return Math.sqrt(Math.pow(finish[0]-start[0],2) + Math.pow(finish[1] - start[1],2));
+    };
 
     this.point_on_line = function(start, finish, distance) {
-      var vector = []
-      vector[0] = finish[0] - start[0]
-      vector[1] = finish[1] - start[1]
+      var vector = [];
+      vector[0] = finish[0] - start[0];
+      vector[1] = finish[1] - start[1];
 
       var magnitude = Math.sqrt(Math.pow(vector[0],2) + Math.pow(vector[1],2));
       vector[0] /= magnitude;
@@ -48,7 +46,8 @@
       return [point, distance - magnitude];
     };
 
-    this.next_point_from = function(point, wall_point_index, distance) {
+    this.next_point_from = memoize(function(point, wall_point_index, distance) {
+      console.log("running next point for wall_point_index :" + wall_point_index);
       var next_wall_point = hadriansWall.points[wall_point_index];
       var tmp = hadriansWall.point_on_line(point, next_wall_point, distance);
       var next_point = tmp[0];
@@ -61,7 +60,7 @@
         }
       }
       return [next_point, wall_point_index];
-    };
+    });
 
     this.continue_wave = function(point, wall_point){
       hadriansWall.flashPoint(point);
@@ -73,7 +72,7 @@
       }
     };
 
-    var points_container = $("ul#points")
+    var points_container = $("ul#points");
     this.flashPoint = function(point, color) {
       var coord = hadriansWall.latLongToXY(point[0], point[1]);
       var $point = $("<li class='point'></li>");
@@ -91,7 +90,7 @@
     };
 
     this.randomPoint = function() {
-      return hadriansWall.points[Math.floor(Math.random() * hadriansWall.points.length)]
+      return hadriansWall.points[Math.floor(Math.random() * hadriansWall.points.length)];
     };
 
     this.flashMessage = function(message,latitude, longitude, color) {
@@ -112,7 +111,7 @@
     };
 
     this.poll = function() {
-      $.get("/messages/hadrians_mapbox.json", {map_box: hadriansWall.mapBox}, function(data){
+      $.get("/messages/hadrians_mapbox.json", function(data){
         $(data.messages).each(function () {
           if(this.id > hadriansWall.lastMessageId){
             var color = "rgb("+this.rgb.join(',')+")";
@@ -129,8 +128,8 @@
         setTimeout(hadriansWall.poll, 500);
       });
     };
-
-    this.continue_wave(this.points[0],1);
+    hadriansWall.continue_wave(hadriansWall.points[0],1);
+    setInterval(function(){hadriansWall.continue_wave(hadriansWall.points[0],1);},14750);
     this.poll();
   }
   var hadriansWall = new HadriansWall();

@@ -51,9 +51,7 @@ class MessagesController < ApplicationController
   caches_action :hadrians_mapbox
 
   def hadrians_mapbox
-    @messages = Message.order("id DESC").limit(500)
-
-    @messages = @messages.where('created_at >= ?', 5.seconds.ago)
+    @messages = Message.where('created_at >= ?', 5.seconds.ago).order("id DESC").limit(50)
     render json: {messages: @messages.as_json(methods: [:post_time, :rgb, :closest_wall_point])}
   end
 
