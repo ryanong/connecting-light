@@ -1,4 +1,6 @@
 ConnectingLight::Application.routes.draw do
+  resources :logs
+
   get "viz/map"
 
   resources :admin_settings do

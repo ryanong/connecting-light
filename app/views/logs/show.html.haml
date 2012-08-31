@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Message:
+  = @log.message
+
+= link_to 'Edit', edit_log_path(@log)
+\|
+= link_to 'Back', logs_path
