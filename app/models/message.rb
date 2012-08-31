@@ -40,7 +40,7 @@ class Message < ActiveRecord::Base
   end
 
   def animation_data
-    super || "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd6MDk4NzY1NDMyMWE="
+    super || "/wF/ZAA4Ycf5hh8P4YAABIMOAwAAAAAAAAAAAAwAAAAAAAAA"
   end
 
   def rgb
