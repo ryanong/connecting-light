@@ -93,7 +93,7 @@ class DigiFi
 
   def send_request(body)
     Rails.logger.info(body)
-    Typhoeus::Request.post(
+    response = Typhoeus::Request.post(
       "#{host}/ws/sci",
       :body    => body,
       :headers => {
@@ -102,6 +102,20 @@ class DigiFi
         "Authorization" => "Basic #{auth_base64}"
       }
     )
+    if response.success?
+      doc = Nokogiri::XML(response.body)
+      return doc.xpath("//jobId").text.to_i
+    elsif response.timed_out?
+      Rails.logger.error("DIGI FI HAS HAD AN ERROR")
+      Rails.logger.error("got a time out")
+    elsif response.code == 0
+      Rails.logger.error("DIGI FI HAS HAD AN ERROR")
+      Rails.logger.error(response.curl_error_message)
+    else
+      Rails.logger.error("DIGI FI HAS HAD AN ERROR")
+      Rails.logger.error("HTTP request failed: " + response.code.to_s)
+    end
+    nil
   end
 
   private

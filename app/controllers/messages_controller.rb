@@ -75,7 +75,6 @@ class MessagesController < ApplicationController
       @message.save
       expire_action :action => :index
       expire_action :action => :hadrians_mapbox, format: :json
-      digi_fi_client.send_message(@message)
     end
     respond_with @message
   end

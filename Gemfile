@@ -5,14 +5,15 @@ gem 'rails', '3.2.8'
 
 gem 'pg'
 gem 'dalli'
-
-gem 'simple_form'
+gem 'redis'
 
 gem 'typhoeus'
 
 gem 'rack-cors', :require => 'rack/cors'
 
+gem 'simple_form'
 gem 'kaminari'
+gem 'nokogiri'
 
 gem 'newrelic_rpm'
 
