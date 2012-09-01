@@ -78,4 +78,12 @@ class Message < ActiveRecord::Base
     end
     false
   end
+
+  def send_to_digi_fi
+    if self.job_id = digi_fi.send_message(self)
+      message.sent_at = DateTime.now
+      message.save(validate:false)
+    end
+  end
+
 end
