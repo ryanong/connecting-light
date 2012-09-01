@@ -47,7 +47,6 @@
     };
 
     this.next_point_from = memoize(function(point, wall_point_index, distance) {
-      console.log("running next point for wall_point_index :" + wall_point_index);
       var next_wall_point = hadriansWall.points[wall_point_index];
       var tmp = hadriansWall.point_on_line(point, next_wall_point, distance);
       var next_point = tmp[0];
@@ -115,7 +114,12 @@
         $(data.messages).each(function () {
           if(this.id > hadriansWall.lastMessageId){
             var color = "rgb("+this.rgb.join(',')+")";
+            if(this.closest_wall_point == null ){
+              var distance = #{HadriansWall::LENGTH} * this.location_on_wall;
+              this.closest_wall_point = hadriansWall.next_point_from(hadriansWall.points[0], 0, distance)[0];
+            }
             hadriansWall.flashPoint([this.closest_wall_point[1],this.closest_wall_point[0]], color);
+
             if (this.latitude <= hadriansWall.mapBox.north &&
               this.latitude >= hadriansWall.mapBox.south &&
               this.longitude >= hadriansWall.mapBox.west &&

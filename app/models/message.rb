@@ -21,7 +21,7 @@ class Message < ActiveRecord::Base
   end
 
   def closest_wall_point
-    HadriansWall.closest_wall_point([longitude, latitude])
+    HadriansWall.closest_wall_point([longitude, latitude])[0] if longitude.present? && latitude.present?
   end
 
   def calculate_location_on_wall!(force = false)
