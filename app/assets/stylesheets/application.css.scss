@@ -14,10 +14,35 @@
 }
 
 body.viz {
+  margin: 0;
   background: #333;
+  a {
+    color: white;
+    text-decoration: none;
+    &:hover {
+      background: none;
+      text-decoration: underline;
+    }
+  }
+  .home {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    margin: 10px;
+  }
+  .send_message {
+    position: fixed;
+    top: 0;
+    right: 0;
+    text-align: right;
+    z-index: 100;
+    margin: 10px;
+  }
 }
 
 #hadrians-mapbox {
+  margin-top: -12px;
   background: image-url('hadrian-mapbox.jpg') no-repeat;
   width: 1434px;
   height: 710px;

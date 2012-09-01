@@ -1,3 +1,10 @@
+.send_message
+  %a{href: "#",
+    onClick: "window.open('http://connectinglight.info/live-stream/','myWin','scrollbars=yes,width=800,height=600');"}
+    Send Message
+.home
+
+  =link_to "Connecting - Light", "http://connecting-light.info"
 #hadrians-mapbox
   %ul#points
 
@@ -102,8 +109,8 @@
       }
       $message.text("· " + message);
       hadriansWall.map.append($message);
-      $message.fadeIn(1000, function(){
-        this.fadeOut(1000,function(){
+      $message.fadeIn(2000, function(){
+        this.fadeOut(2000,function(){
           this[0].parentNode.removeChild(this[0]);
         });
       });
