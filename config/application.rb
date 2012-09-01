@@ -61,10 +61,10 @@ module ConnectingLight
 
     config.middleware.use Rack::Cors do
       allow do
-        origins 'connectinglight.info'
-        resource %r{/messages.*},
-          :headers => ['Origin', 'Accept', 'Content-Type'],
-          :methods => [:post, :get, :put]
+        origins 'localhost:8000', 'connectinglight.info'
+        resource %r{/messages(\.json)?},
+          :headers => ['Origin', 'Accept', 'Content-Type', 'X-Requested-With'],
+          :methods => [:post, :get]
       end
     end
 
